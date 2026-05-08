@@ -6,6 +6,7 @@
 # General project-specific ignores
 build/*
 tools/agbcc/*
+.claude/*
 *.gba
 *.sav
 *.dump

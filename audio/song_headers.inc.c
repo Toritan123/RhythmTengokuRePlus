@@ -9177,3 +9177,15 @@ struct SongHeader s_guntai_v_susume_3_seqData = {
     /* Song Title    */ s_guntai_v_susume_3_seqName,
     /* Song Number   */ 1538
 };
+
+extern const u8 marching_orders_tempo_mid[];
+struct SongHeader marching_orders_tempo_seqData = {
+    /* MIDI Sequence */ marching_orders_tempo_mid,
+    /* Sound Player  */ MUSIC_PLAYER_0,
+    /* Bank Number   */ INST_BANK_69,
+    /* Volume        */ 120,
+    /* Priority      */ 50,
+    /* unk8          */ 0xff,
+    /* Song Title    */ marching_orders_tempo_seqName,
+    /* Song Number   */ 3
+};
