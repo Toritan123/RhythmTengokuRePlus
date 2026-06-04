@@ -5614,6 +5614,10 @@
         {
             "sample": "shockshort.wav",
             "pitch": "C5"
+        },
+        {
+            "sample": "campaign_cursor.wav",
+            "pitch": "C5"
         }
     ]
 }

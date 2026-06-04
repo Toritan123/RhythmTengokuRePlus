@@ -763,6 +763,7 @@ extern struct SongHeader s_guntai_v_susume_f_seqData;
 extern struct SongHeader s_rat_paw_seqData;
 extern struct SongHeader s_rat_squeak_seqData;
 extern struct SongHeader s_f_boxing_two_fast_sfx_seqData;
+extern struct SongHeader s_campaign_cursor_seqData;
 extern struct SongHeader spaceball_tempo_seqData;
 extern struct SongHeader spaceball_tempo_mpart_seqData;
 extern struct SongHeader spaceball_tempo_cymbal_seqData;

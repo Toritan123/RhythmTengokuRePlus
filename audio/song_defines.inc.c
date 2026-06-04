@@ -1944,3 +1944,4 @@
 /* 1941 */ DEFINE_SONG( &s_rat_paw_seqData,                  SFX_PLAYER_2   )
 /* 1942 */ DEFINE_SONG( &s_rat_squeak_seqData,               SFX_PLAYER_0   )
 /* 1943 */ DEFINE_SONG( &s_f_boxing_two_fast_sfx_seqData,       SFX_PLAYER_2   )
+/* 1944 */ DEFINE_SONG( &s_campaign_cursor_seqData,             SFX_PLAYER_2   )
