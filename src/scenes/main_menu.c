@@ -131,13 +131,8 @@ void main_menu_scene_update(void *sVar, s32 dArg) {
                     gameplay_pause_menu_set_quit_destination(&scene_main_menu);
                     break;
                 case RHYTHM_DATA_ROOM:
-                    if ((D_03004ac0 & LEFT_SHOULDER_BUTTON) && (D_03004ac0 & RIGHT_SHOULDER_BUTTON)) {
-                        set_next_scene(&scene_data_check);
-                        set_scene_trans_target(&scene_data_check, &scene_main_menu);
-                    } else {
-                        set_next_scene(&scene_data_room);
-                        set_scene_trans_target(&scene_data_room, &scene_main_menu);
-                    }
+                    set_next_scene(&scene_data_room);
+                    set_scene_trans_target(&scene_data_room, &scene_main_menu);
                     break;
                 case STUDIO:
                     if ((D_03004ac0 & LEFT_SHOULDER_BUTTON) && (D_03004ac0 & RIGHT_SHOULDER_BUTTON)) {
