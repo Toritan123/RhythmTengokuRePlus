@@ -8,6 +8,12 @@ asm(".include \"include/gba.inc\"");//Temporary
 // For readability.
 #define gGameplay ((struct GameplaySceneData *)gCurrentSceneData)
 
+// These engines check the held-button register (D_03004ac0) themselves instead
+// of going through the cue system, so autoplay has to rebuild that state for
+// them by hand. Everything else is driven purely by gameplay_update_inputs().
+extern const struct GameEngine rhythm_tweezers_engine;
+extern const struct GameEngine rat_race_engine;
+
 #define PAUSE_MENU_PALETTE_MOD 0x3DEF3DEF // Equivalent to RGB #7F7F7F
 
 enum PauseMenuOptionsEnum {
@@ -156,6 +162,8 @@ void gameplay_update_scene(void) {
 
     if(gGameplay->autoplayEnabled){
         u16 autoplayHeldButtons = 0;
+        u32 rebuildHeldButtons = (gGameplay->gameEngine == &rhythm_tweezers_engine)
+                              || (gGameplay->gameEngine == &rat_race_engine);
         struct Cue *cue = gGameplay->cues;
         while (cue != NULL) {
             struct CueDefinition *cueDef = &cue->data;
@@ -182,11 +190,10 @@ void gameplay_update_scene(void) {
                 }
             }
 
-            // Some engines read the held-button register directly instead of
-            // going through the cue system (rhythm tweezers' long hair and rat
-            // race), so the momentary input above never satisfies them.
-            // Rebuild the button state those engines expect to see.
-            if (!cue->hasExpired) {
+            // Rebuild the held state for the engines that need it. Doing this
+            // everywhere would keep buttons pressed long after the cue was
+            // played, which upsets games that watch for stray inputs.
+            if (rebuildHeldButtons && !cue->hasExpired) {
                 if (release != 0) {
                     // Release cue: hold the button until it has to be let go.
                     if (runningTime < duration) {
