@@ -184,8 +184,16 @@ void gameplay_update_scene(void) {
 
             if (!cue->unk48_b0 && !cue->hasExpired && runningTime == duration) {
                 if (gameplay_inputs_are_enabled()) { // if play inputs are enabled
-                    if ((input != 0) || (release != 0)) {
-                        gameplay_update_inputs(input, release); // Update Inputs
+                    // Only send what the game is currently accepting, the same
+                    // way the player's input is filtered below. Some games
+                    // disable a button for a while after it was used (the
+                    // mannequin factory locks the button it was just posed
+                    // with), and pressing it anyway trips them up.
+                    u16 sendInput = input & gGameplay->buttonPressFilter;
+                    u16 sendRelease = release & gGameplay->buttonReleaseFilter;
+
+                    if ((sendInput != 0) || (sendRelease != 0)) {
+                        gameplay_update_inputs(sendInput, sendRelease); // Update Inputs
                     }
                 }
             }
