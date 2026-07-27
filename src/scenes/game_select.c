@@ -998,6 +998,7 @@ u32 game_select_get_next_valid_xy(s32 *xReq, s32 *yReq, s32 dx, s32 dy) {
 void game_select_read_dpad_inputs(void) {
     s16 screenX, screenY;
     s32 x, y, dx, dy;
+    s32 levelID;
     s32 i;
 
     // Get horizontal and vertical movement.
@@ -1049,7 +1050,12 @@ void game_select_read_dpad_inputs(void) {
             && (y == gGameSelect->campaignNotice.y)) {
         play_sound(&s_campaign_cursor_seqData);
     } else {
-        play_sound(&s_menu_cursor1_seqData);
+        levelID = get_level_id_from_grid_xy(x, y);
+        if ((levelID > LEVEL_NULL) && (get_level_data_from_id(levelID)->type == LEVEL_TYPE_BONUS)) {
+            play_sound(&s_menu_cursor2_seqData);
+        } else {
+            play_sound(&s_menu_cursor1_seqData);
+        }
     }
 }
 
