@@ -214,20 +214,7 @@ void func_08041444(int arg0) {
 
 }
 
-void func_080415c0(u32 lesson) {
-    u8 i;
-    gMechanicalHorse->unk2cc = lesson;
-
-    sprite_set_anim(gSpriteHandler, gMechanicalHorse->horse[1].sprite, mechanical_horse_anim[lesson], 0, 0, 0, SPRITE_PLAYBACK_NORMAL_LOOP);
-    sprite_set_anim(gSpriteHandler, gMechanicalHorse->jockey[1].sprite, mechanical_horse_jockey_anim[lesson], 0, 0, 0, SPRITE_PLAYBACK_NORMAL_LOOP);
-
-    for(i = 0; i < 4; i++){
-        gMechanicalHorse->unk26c[i].pos_x = INT_TO_FIXED(D_0805aab0[lesson][i]);
-
-        sprite_set_x_y(gSpriteHandler, gMechanicalHorse->unk26c[i].sprite, FIXED_TO_INT(gMechanicalHorse->unk26c[i].pos_x), FIXED_TO_INT(gMechanicalHorse->unk26c[i].pos_y));
-        sprite_set_anim(gSpriteHandler, gMechanicalHorse->unk26c[i].sprite, mechanical_horse_lesson_text_anim[lesson][i], 1, 0, 0, SPRITE_PLAYBACK_NORMAL_LOOP);
-    }
-}
+#include "asm/engines/mechanical_horse/asm_080415c0.s"
 
 // prints specified text?
 void func_080416cc(const char* string) {
@@ -351,6 +338,7 @@ void func_08041970(void) {
 
 #include "asm/engines/mechanical_horse/asm_0804231c.s"
 
+// https://decomp.me/scratch/58myn
 #include "asm/engines/mechanical_horse/asm_08042438.s"
 
 void func_0804249c(void) {
