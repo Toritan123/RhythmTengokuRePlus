@@ -95,7 +95,12 @@ sudo dkp-pacman -S gba-dev
 
 #### 依存関係のインストール
 
-まず[Homebrew](https://brew.sh/ja/)をインストールします（既にインストール済みの場合はスキップ）:
+まずコマンドラインデベロッパツールをインストールします（ビルドに使用する`python3`などが含まれます）:
+```bash
+xcode-select --install
+```
+
+次に[Homebrew](https://brew.sh/ja/)をインストールします（既にインストール済みの場合はスキップ）:
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
@@ -115,6 +120,15 @@ export DEVKITPRO=/opt/devkitpro
 export DEVKITARM=/opt/devkitpro/devkitARM
 export DEVKITPPC=/opt/devkitpro/devkitPPC
 ```
+
+上記の`export`はそのターミナルを閉じると失われるため、次回以降も有効にするにはシェルの設定ファイルに追記します。macOSの標準シェル（zsh）の場合:
+```bash
+echo 'export DEVKITPRO=/opt/devkitpro' >> ~/.zshrc
+echo 'export DEVKITARM=/opt/devkitpro/devkitARM' >> ~/.zshrc
+echo 'export DEVKITPPC=/opt/devkitpro/devkitPPC' >> ~/.zshrc
+```
+
+シェルがbashの場合は`~/.zshrc`の代わりに`~/.bashrc`を使用してください。
 
 次にGBA開発ツールをインストールします:
 ```bash
