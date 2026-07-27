@@ -1,4 +1,5 @@
 #include "engines/toss_boys.h"
+#include "src/audio.h"
 
 asm(".include \"include/gba.inc\""); // Temporary
 
@@ -7,6 +8,27 @@ asm(".include \"include/gba.inc\""); // Temporary
 
 
 /* TOSS BOYS */
+
+
+// Play Ball Dispenser SFX, panned towards the boy who starts the toss.
+void toss_boys_play_ball_sfx(u32 param) {
+    struct SoundPlayer *soundPlayer = play_sound(&s_f_toss_ball_seqData);
+    s8 panning;
+
+    switch (param) {
+        case 0:
+            panning = 60;
+            break;
+        case 1:
+            panning = 29;
+            break;
+        default:
+            panning = -60;
+            break;
+    }
+
+    set_soundplayer_panning(soundPlayer, panning);
+}
 
 
 #include "asm/engines/toss_boys/asm_0803e824.s"

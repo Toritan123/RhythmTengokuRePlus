@@ -141,8 +141,8 @@ branch_0803f28c: \n\
 /* 0803f304 */ LDRSH R1, [R1, R2] \n\
 /* 0803f306 */ MOVS R2, 0x0 @ Set R2 to 0x0 \n\
 /* 0803f308 */ BL sprite_set_anim_cel \n\
-/* 0803f30c */ LDR R0, =s_f_toss_ball_seqData \n\
-/* 0803f30e */ BL play_sound \n\
+/* 0803f30c */ LDR R0, [SP, 0xC] @ Toss target, for SFX panning \n\
+/* 0803f30e */ BL toss_boys_play_ball_sfx \n\
 /* 0803f312 */ LDR R0, =toss_boys_arrow_anim_ids \n\
 /* 0803f314 */ LDR R3, [SP, 0xC] \n\
 /* 0803f316 */ ADDS R0, R3, R0 @ Set R0 to R3 + R0 \n\
