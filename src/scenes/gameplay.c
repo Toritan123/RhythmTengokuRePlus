@@ -155,33 +155,55 @@ void gameplay_update_scene(void) {
     #endif
 
     if(gGameplay->autoplayEnabled){
+        u16 autoplayHeldButtons = 0;
         struct Cue *cue = gGameplay->cues;
         while (cue != NULL) {
             struct CueDefinition *cueDef = &cue->data;
             s32 runningTime = cue->runningTime;
             s32 duration = cue->duration;
+            u16 input = (cueDef->buttonFilter & 0x8000) ? 0 : cueDef->buttonFilter;
+            u16 release = (cueDef->buttonFilter & 0x8000) ? cueDef->buttonFilter : 0;
+
+            // ok so checks if there are multiple buttons
+            // and if there is then only keep the lowest button
+            // (else it registers as a miss for the... wrong button... thanks drum lessons!)
+            if (input & (input - 1)) {
+                input &= (u16)(0 - input);
+            }
+            if (release & (release - 1)) {
+                release &= (u16)(0 - release);
+            }
+
             if (!cue->unk48_b0 && !cue->hasExpired && runningTime == duration) {
-                u16 input = (cueDef->buttonFilter & 0x8000) ? 0 : cueDef->buttonFilter;
-                u16 release = (cueDef->buttonFilter & 0x8000) ? cueDef->buttonFilter : 0;
-
-                // ok so checks if there are multiple buttons
-                // and if there is then only keep the lowest button
-                // (else it registers as a miss for the... wrong button... thanks drum lessons!)
-                if (input & (input - 1)) {
-                    input &= (u16)(0 - input);
-                }
-                if (release & (release - 1)) {
-                    release &= (u16)(0 - release);
-                }
-
                 if (gameplay_inputs_are_enabled()) { // if play inputs are enabled
                     if ((input != 0) || (release != 0)) {
                         gameplay_update_inputs(input, release); // Update Inputs
                     }
                 }
             }
+
+            // Some engines read the held-button register directly instead of
+            // going through the cue system (rhythm tweezers' long hair and rat
+            // race), so the momentary input above never satisfies them.
+            // Rebuild the button state those engines expect to see.
+            if (!cue->hasExpired) {
+                if (release != 0) {
+                    // Release cue: hold the button until it has to be let go.
+                    if (runningTime < duration) {
+                        autoplayHeldButtons |= release;
+                    }
+                } else if (runningTime >= duration) {
+                    // Press cue: keep holding it, for cues that are held/pulled.
+                    autoplayHeldButtons |= input;
+                }
+            }
+
             cue = cue->prev;
         }
+
+        // Refreshed from the hardware every frame by update_main_key_buffers(),
+        // so this only applies for the current frame.
+        D_03004ac0 |= autoplayHeldButtons;
     } else {
         pressed = D_03004afc & gGameplay->buttonPressFilter;
         released = D_03004b00 & gGameplay->buttonReleaseFilter;
