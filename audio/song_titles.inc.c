@@ -768,3 +768,4 @@ char spaceball_tempo_cymbal_seqName[] = "";
 char rhythmtweezers_tempo_seqName[] = "";
 char marching_orders_tempo_seqName[] = "";
 char s_campaign_cursor_seqName[] = "";
+char s_cursor_edge_seqName[] = "";

@@ -5618,6 +5618,10 @@
         {
             "sample": "campaign_cursor.wav",
             "pitch": "C5"
+        },
+        {
+            "sample": "cursor_edge.wav",
+            "pitch": "C5"
         }
     ]
 }

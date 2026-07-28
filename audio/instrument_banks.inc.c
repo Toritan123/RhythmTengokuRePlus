@@ -1896,7 +1896,7 @@ union Instrument inst_bank_60[] = {
     /* 020 */ { .pcm = &instrument_pcm_1624 }, { .pcm = &instrument_pcm_1625 }
 };
 
-// 64 Instruments
+// 65 Instruments
 union Instrument inst_bank_61[] = {
     /* 000 */ { .pcm = &instrument_pcm_1626 }, { .pcm = &instrument_pcm_1627 }, { .pcm = &instrument_pcm_1628 }, { .pcm = &instrument_pcm_1629 },
     /* 004 */ { .pcm = &instrument_pcm_1630 }, { .pcm = &instrument_pcm_1631 }, { .pcm = &instrument_pcm_1632 }, { .pcm = &instrument_pcm_1633 },
@@ -1913,7 +1913,8 @@ union Instrument inst_bank_61[] = {
     /* 048 */ { .pcm = &instrument_pcm_1674 }, { .pcm = &instrument_pcm_1675 }, { .pcm = &instrument_pcm_1676 }, { .pcm = &instrument_pcm_1677 },
     /* 052 */ { .pcm = &instrument_pcm_1678 }, { .pcm = &instrument_pcm_1679 }, { .pcm = &instrument_pcm_1680 }, { .pcm = &instrument_pcm_1681 },
     /* 056 */ { .pcm = &instrument_pcm_1682 }, { .pcm = &instrument_pcm_1683 }, { .pcm = &instrument_pcm_1684 }, { .pcm = &instrument_pcm_1685 },
-    /* 060 */ { .pcm = &instrument_pcm_1686 }, { .pcm = &instrument_pcm_1687 }, { .pcm = &instrument_pcm_1742 }, { .pcm = &instrument_pcm_4002 }
+    /* 060 */ { .pcm = &instrument_pcm_1686 }, { .pcm = &instrument_pcm_1687 }, { .pcm = &instrument_pcm_1742 }, { .pcm = &instrument_pcm_4002 },
+    /* 064 */ { .pcm = &instrument_pcm_4003 }
 };
 
 // 42 Instruments

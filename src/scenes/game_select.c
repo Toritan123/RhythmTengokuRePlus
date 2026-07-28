@@ -1031,6 +1031,7 @@ void game_select_read_dpad_inputs(void) {
 
     // If the movement is invalid or zero, exit.
     if (!game_select_get_next_valid_xy(&x, &y, dx, dy)) {
+        play_sound(&s_cursor_edge_seqData); // Let the player hear that the cursor is stuck.
         return;
     }
 
