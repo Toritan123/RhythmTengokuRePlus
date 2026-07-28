@@ -211,7 +211,7 @@ void dataroom_scene_update(void *sVar, s32 dArg) {
         case DATAROOM_EV_SCROLL_UP:
             selItem = listbox_get_sel_item(gDataRoom->listbox);
             listbox_scroll_up(gDataRoom->listbox);
-            if (listbox_get_sel_item(gDataRoom->listbox) == selItem) {
+            if ((listbox_get_sel_item(gDataRoom->listbox) == selItem) && (D_03004afc & DPAD_UP)) {
                 play_sound(&s_cursor_edge_seqData); // Already at the top.
             }
             break;
@@ -219,7 +219,7 @@ void dataroom_scene_update(void *sVar, s32 dArg) {
         case DATAROOM_EV_SCROLL_DOWN:
             selItem = listbox_get_sel_item(gDataRoom->listbox);
             listbox_scroll_down(gDataRoom->listbox);
-            if (listbox_get_sel_item(gDataRoom->listbox) == selItem) {
+            if ((listbox_get_sel_item(gDataRoom->listbox) == selItem) && (D_03004afc & DPAD_DOWN)) {
                 play_sound(&s_cursor_edge_seqData); // Already at the bottom.
             }
             break;

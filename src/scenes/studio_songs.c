@@ -251,7 +251,7 @@ void studio_song_list_update(void) {
         case STUDIO_LIST_EV_SCROLL_UP:
             selItem = listbox_get_sel_item(gStudio->songList);
             listbox_scroll_up(gStudio->songList);
-            if (listbox_get_sel_item(gStudio->songList) == selItem) {
+            if ((listbox_get_sel_item(gStudio->songList) == selItem) && (D_03004afc & DPAD_UP)) {
                 play_sound(&s_cursor_edge_seqData); // Already at the top.
             }
             break;
@@ -259,7 +259,7 @@ void studio_song_list_update(void) {
         case STUDIO_LIST_EV_SCROLL_DOWN:
             selItem = listbox_get_sel_item(gStudio->songList);
             listbox_scroll_down(gStudio->songList);
-            if (listbox_get_sel_item(gStudio->songList) == selItem) {
+            if ((listbox_get_sel_item(gStudio->songList) == selItem) && (D_03004afc & DPAD_DOWN)) {
                 play_sound(&s_cursor_edge_seqData); // Already at the bottom.
             }
             break;
@@ -361,7 +361,7 @@ void studio_song_list_update_w_selection(void) {
         case STUDIO_LIST_EV_SCROLL_UP:
             selItem = listbox_get_sel_item(gStudio->songList);
             listbox_scroll_up(gStudio->songList);
-            if (listbox_get_sel_item(gStudio->songList) == selItem) {
+            if ((listbox_get_sel_item(gStudio->songList) == selItem) && (D_03004afc & DPAD_UP)) {
                 play_sound(&s_cursor_edge_seqData); // Already at the top.
             }
             break;
@@ -369,7 +369,7 @@ void studio_song_list_update_w_selection(void) {
         case STUDIO_LIST_EV_SCROLL_DOWN:
             selItem = listbox_get_sel_item(gStudio->songList);
             listbox_scroll_down(gStudio->songList);
-            if (listbox_get_sel_item(gStudio->songList) == selItem) {
+            if ((listbox_get_sel_item(gStudio->songList) == selItem) && (D_03004afc & DPAD_DOWN)) {
                 play_sound(&s_cursor_edge_seqData); // Already at the bottom.
             }
             break;
