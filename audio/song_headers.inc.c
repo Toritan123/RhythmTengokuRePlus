@@ -9195,7 +9195,7 @@ struct SongHeader s_cursor_edge_seqData = {
     /* MIDI Sequence */ s_cursor_edge_mid,
     /* Sound Player  */ SFX_PLAYER_2,
     /* Bank Number   */ INST_BANK_61,
-    /* Volume        */ 80,
+    /* Volume        */ 45,
     /* Priority      */ 90,
     /* unk8          */ 0x40,
     /* Song Title    */ s_cursor_edge_seqName,

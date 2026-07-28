@@ -114,12 +114,16 @@ void options_scene_update_main(void) {
     if (D_03004afc & DPAD_UP) {
         if (gOptionsMenu->cursorPos >= OPTIONS_BUTTON_DATA_CLEAR) {
             event = OPTIONS_EV_CURSOR_UP;
+        } else {
+            play_sound(&s_cursor_edge_seqData); // Already at the top.
         }
     }
 
     if (D_03004afc & DPAD_DOWN) {
         if (gOptionsMenu->cursorPos <= OPTIONS_BUTTON_SOUND_MODE) {
             event = OPTIONS_EV_CURSOR_DOWN;
+        } else {
+            play_sound(&s_cursor_edge_seqData); // Already at the bottom.
         }
     }
 
@@ -227,6 +231,8 @@ void options_scene_update_warning(void) {
             options_scene_move_warning_cursor(gOptionsMenu->warningCursorPos);
             sprite_set_anim_cel(gSpriteHandler, gOptionsMenu->uiWarningCursor, 0);
             play_sound(&s_menu_cursor1_seqData);
+        } else {
+            play_sound(&s_cursor_edge_seqData); // Already at the top.
         }
     }
 
@@ -236,6 +242,8 @@ void options_scene_update_warning(void) {
             options_scene_move_warning_cursor(gOptionsMenu->warningCursorPos);
             sprite_set_anim_cel(gSpriteHandler, gOptionsMenu->uiWarningCursor, 0);
             play_sound(&s_menu_cursor1_seqData);
+        } else {
+            play_sound(&s_cursor_edge_seqData); // Already at the bottom.
         }
     }
 }

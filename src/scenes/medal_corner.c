@@ -251,6 +251,7 @@ void medal_corner_scene_update(void *sVar, s32 dArg) {
     struct Scene *scene;
     u32 event = MEDAL_CORNER_EV_NONE;
     u32 item;
+    s32 selItem;
 
     if (medal_corner_scene_inputs_enabled()) {
         if (D_030053b8 & DPAD_UP) {
@@ -289,11 +290,19 @@ void medal_corner_scene_update(void *sVar, s32 dArg) {
             break;
 
         case MEDAL_CORNER_EV_SCROLL_UP:
+            selItem = listbox_get_sel_item(gMedalCorner->listbox);
             listbox_scroll_up(gMedalCorner->listbox);
+            if (listbox_get_sel_item(gMedalCorner->listbox) == selItem) {
+                play_sound(&s_cursor_edge_seqData); // Already at the top.
+            }
             break;
 
         case MEDAL_CORNER_EV_SCROLL_DOWN:
+            selItem = listbox_get_sel_item(gMedalCorner->listbox);
             listbox_scroll_down(gMedalCorner->listbox);
+            if (listbox_get_sel_item(gMedalCorner->listbox) == selItem) {
+                play_sound(&s_cursor_edge_seqData); // Already at the bottom.
+            }
             break;
 
         case MEDAL_CORNER_EV_CANCEL:

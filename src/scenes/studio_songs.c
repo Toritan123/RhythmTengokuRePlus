@@ -192,6 +192,7 @@ void studio_song_list_init(s32 state, s32 selItem, s32 selLine) {
 // Song List - Update
 void studio_song_list_update(void) {
     s32 songItem, optionItem;
+    s32 selItem;
     s32 event = STUDIO_LIST_EV_NONE;
 
     if (!listbox_is_busy(gStudio->songList) && studio_scene_inputs_enabled()) {
@@ -248,11 +249,19 @@ void studio_song_list_update(void) {
             break;
 
         case STUDIO_LIST_EV_SCROLL_UP:
+            selItem = listbox_get_sel_item(gStudio->songList);
             listbox_scroll_up(gStudio->songList);
+            if (listbox_get_sel_item(gStudio->songList) == selItem) {
+                play_sound(&s_cursor_edge_seqData); // Already at the top.
+            }
             break;
 
         case STUDIO_LIST_EV_SCROLL_DOWN:
+            selItem = listbox_get_sel_item(gStudio->songList);
             listbox_scroll_down(gStudio->songList);
+            if (listbox_get_sel_item(gStudio->songList) == selItem) {
+                play_sound(&s_cursor_edge_seqData); // Already at the bottom.
+            }
             break;
 
         case STUDIO_LIST_EV_MOVE_ITEM:
@@ -312,6 +321,7 @@ void studio_song_list_move_item(s32 prevIndex, s32 newIndex) {
 // Song List - Update (Moving Selected Item)
 void studio_song_list_update_w_selection(void) {
     s32 songItem;
+    s32 selItem;
     u32 event = STUDIO_LIST_EV_NONE;
 
     if (!listbox_is_busy(gStudio->songList) && studio_scene_inputs_enabled()) {
@@ -349,11 +359,19 @@ void studio_song_list_update_w_selection(void) {
             break;
 
         case STUDIO_LIST_EV_SCROLL_UP:
+            selItem = listbox_get_sel_item(gStudio->songList);
             listbox_scroll_up(gStudio->songList);
+            if (listbox_get_sel_item(gStudio->songList) == selItem) {
+                play_sound(&s_cursor_edge_seqData); // Already at the top.
+            }
             break;
 
         case STUDIO_LIST_EV_SCROLL_DOWN:
+            selItem = listbox_get_sel_item(gStudio->songList);
             listbox_scroll_down(gStudio->songList);
+            if (listbox_get_sel_item(gStudio->songList) == selItem) {
+                play_sound(&s_cursor_edge_seqData); // Already at the bottom.
+            }
             break;
     }
 }

@@ -110,6 +110,11 @@ void main_menu_scene_update(void *sVar, s32 dArg) {
         }
         sMainMenuButton = clamp_int32(sMainMenuButton, GAME_SELECT, OPTIONS_MENU);
 
+        // The cursor was already at the end of the list and got clamped back.
+        if ((prevButton == sMainMenuButton) && (D_03004afc & (DPAD_UP | DPAD_DOWN))) {
+            play_sound(&s_cursor_edge_seqData);
+        }
+
         if (prevButton != sMainMenuButton) {
             play_sound(&s_menu_cursor2_seqData);
             sprite_set_anim(gSpriteHandler, gMainMenu->buttons[prevButton], main_menu_button_off_anim[prevButton], 0, 1, 0, 0);

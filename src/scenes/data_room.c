@@ -173,6 +173,7 @@ void dataroom_scene_update_user(void) {
 // Scene Update (Active)
 void dataroom_scene_update(void *sVar, s32 dArg) {
     u32 event = DATAROOM_EV_NONE;
+    s32 selItem;
 
     if (dataroom_scene_inputs_enabled()) {
         if (D_030053b8 & DPAD_UP) {
@@ -208,11 +209,19 @@ void dataroom_scene_update(void *sVar, s32 dArg) {
             break;
 
         case DATAROOM_EV_SCROLL_UP:
+            selItem = listbox_get_sel_item(gDataRoom->listbox);
             listbox_scroll_up(gDataRoom->listbox);
+            if (listbox_get_sel_item(gDataRoom->listbox) == selItem) {
+                play_sound(&s_cursor_edge_seqData); // Already at the top.
+            }
             break;
 
         case DATAROOM_EV_SCROLL_DOWN:
+            selItem = listbox_get_sel_item(gDataRoom->listbox);
             listbox_scroll_down(gDataRoom->listbox);
+            if (listbox_get_sel_item(gDataRoom->listbox) == selItem) {
+                play_sound(&s_cursor_edge_seqData); // Already at the bottom.
+            }
             break;
 
         case DATAROOM_EV_CANCEL:
