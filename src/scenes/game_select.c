@@ -1031,7 +1031,13 @@ void game_select_read_dpad_inputs(void) {
 
     // If the movement is invalid or zero, exit.
     if (!game_select_get_next_valid_xy(&x, &y, dx, dy)) {
-        play_sound(&s_cursor_edge_seqData); // Let the player hear that the cursor is stuck.
+        // Let the player hear that the cursor is stuck, but only when the
+        // direction was actually just pressed. Movement above also accepts the
+        // key-repeat buffer, so without this the sound would machine-gun while
+        // the pad is held, and would fire when scrolling into the edge.
+        if (D_03004afc & DPAD_ALL) {
+            play_sound(&s_cursor_edge_seqData);
+        }
         return;
     }
 
