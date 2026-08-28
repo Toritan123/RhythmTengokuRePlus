@@ -124,8 +124,8 @@ void perfect_scene_start(void *sVar, s32 dArg) {
     if (!giftAwarded) {
         // Replaying a campaign that was already cleared: celebrate the
         // perfect, but do not claim to hand out a gift the player owns.
-        strcat(gPerfect->string, "\0020" "\0010" "は　もう　もらっているでし。\n");
-        strcat(gPerfect->string, "でも　みごとな　パーフェクト　でし！");
+        strcat(gPerfect->string, "\0020" "\0010" "は　もう　もらっています。\n");
+        strcat(gPerfect->string, "でも　みごとな　パーフェクトです！");
     } else {
     strcat(gPerfect->string, "\0020" "\0010" "をプレゼント！\n"); // You've earned a gift!
     strcat(gPerfect->string, perfect_gift_directive_text[giftType]);
