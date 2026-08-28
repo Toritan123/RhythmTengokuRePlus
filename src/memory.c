@@ -208,6 +208,14 @@ void set_playtest_save_data(void) {
 
     data->campaignState = CAMPAIGN_STATE_INACTIVE;
 
+    // clear every perfect campaign, so cleared ones can be replayed by
+    // holding SELECT on the game select screen (that needs totalPerfects
+    // to have reached TOTAL_PERFECT_CAMPAIGNS)
+    for (i = 0; i < TOTAL_PERFECT_CAMPAIGNS; i++) {
+        set_campaign_cleared(data, i, TRUE);
+    }
+    data->totalPerfects = TOTAL_PERFECT_CAMPAIGNS;
+
     // set medals to 99
     data->totalMedals = 99;
 
