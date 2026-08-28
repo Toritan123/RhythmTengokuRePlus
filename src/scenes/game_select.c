@@ -1163,12 +1163,12 @@ void game_select_read_inputs(void) {
 
             set_pause_beatscript_scene(FALSE);
             gGameSelect->inputsEnabled = FALSE;
+            play_sound(&s_menu_kettei1_seqData);
             if (sReplayingCampaign) {
                 // Make it audible that the perfect campaign was re-armed,
-                // since holding SELECT otherwise gives no feedback.
-                play_sound(&s_f_campaign_notice_seqData);
-            } else {
-                play_sound(&s_menu_kettei1_seqData);
+                // since holding SELECT otherwise gives no feedback. This
+                // one starts on tick 0 so it lands with the confirm sound.
+                play_sound(&s_campaign_retry_seqData);
             }
             return;
         }

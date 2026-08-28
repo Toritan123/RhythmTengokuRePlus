@@ -1948,3 +1948,4 @@
 /* 1945 */ DEFINE_SONG( &s_cursor_edge_seqData,                 SFX_PLAYER_2   )
 /* 1946 */ DEFINE_SONG( &s_tran_hit_left_seqData,               SFX_PLAYER_2   )
 /* 1947 */ DEFINE_SONG( &s_tran_hit_right_seqData,              SFX_PLAYER_8   )
+/* 1948 */ DEFINE_SONG( &s_campaign_retry_seqData,              SFX_PLAYER_0   )

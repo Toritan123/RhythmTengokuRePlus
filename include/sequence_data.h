@@ -767,6 +767,7 @@ extern struct SongHeader s_campaign_cursor_seqData;
 extern struct SongHeader s_cursor_edge_seqData;
 extern struct SongHeader s_tran_hit_left_seqData;
 extern struct SongHeader s_tran_hit_right_seqData;
+extern struct SongHeader s_campaign_retry_seqData;
 extern struct SongHeader spaceball_tempo_seqData;
 extern struct SongHeader spaceball_tempo_mpart_seqData;
 extern struct SongHeader spaceball_tempo_cymbal_seqData;
