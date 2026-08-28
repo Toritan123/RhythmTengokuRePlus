@@ -49,6 +49,7 @@ void perfect_scene_start(void *sVar, s32 dArg) {
     char count[0x10];
     u32 campaignsLeft;
     u32 giftType, giftID;
+    u32 giftAwarded = TRUE; // FALSE when replaying an already-cleared campaign
 
     func_08007324(FALSE);
     func_080073f0();
@@ -85,6 +86,8 @@ void perfect_scene_start(void *sVar, s32 dArg) {
 
             cafe_session_add_perfect_level(get_level_id_from_grid_xy(D_030046a8->data.recentLevelX, D_030046a8->data.recentLevelY));
             results_save_to_cart(LEVEL_STATE_NULL);
+        } else {
+            giftAwarded = FALSE;
         }
     } else {
         gPerfect->campaignID = 0;
@@ -118,6 +121,12 @@ void perfect_scene_start(void *sVar, s32 dArg) {
         }
     }
 
+    if (!giftAwarded) {
+        // Replaying a campaign that was already cleared: celebrate the
+        // perfect, but do not claim to hand out a gift the player owns.
+        strcat(gPerfect->string, "\0020" "\0010" "は　もう　もらっているでし。\n");
+        strcat(gPerfect->string, "でも　みごとな　パーフェクト　でし！");
+    } else {
     strcat(gPerfect->string, "\0020" "\0010" "をプレゼント！\n"); // You've earned a gift!
     strcat(gPerfect->string, perfect_gift_directive_text[giftType]);
 
@@ -130,6 +139,7 @@ void perfect_scene_start(void *sVar, s32 dArg) {
         strcat(gPerfect->string, "プレゼントは　これで" "\0021" "\0011" // 0 gifts left.
                                      "オシマイ" "\0020" "\0010" "です。\n"); // You finally got them all!
         strcat(gPerfect->string, "パーフェクトキャンペーン、コンプリートです！"); // Congratulations!
+    }
     }
 
     text_printer_set_string(gPerfect->printer, gPerfect->string);
