@@ -270,7 +270,7 @@ struct CueDefinition tram_pauline_cue_tram = {
     /* Func. Barely    */ tram_pauline_cue_barely,
     /* Func. Miss      */ tram_pauline_cue_miss,
     /* SFX Spawn       */ NULL,
-    /* SFX Hit         */ &s_hanabi_pon_seqData,
+    /* SFX Hit         */ &s_tran_hit_left_seqData,
     /* SFX Barely      */ &s_witch_donats_seqData,
     /* SFX Miss        */ NULL,
     /* Miss Condition  */ NULL
@@ -294,7 +294,7 @@ struct CueDefinition tram_pauline_cue_pauline = {
     /* Func. Barely    */ tram_pauline_cue_barely,
     /* Func. Miss      */ tram_pauline_cue_miss,
     /* SFX Spawn       */ NULL,
-    /* SFX Hit         */ &s_witch_cake_seqData,
+    /* SFX Hit         */ &s_tran_hit_right_seqData,
     /* SFX Barely      */ &s_witch_donats_seqData,
     /* SFX Miss        */ NULL,
     /* Miss Condition  */ NULL

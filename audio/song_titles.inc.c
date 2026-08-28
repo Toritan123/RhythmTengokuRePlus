@@ -769,3 +769,5 @@ char rhythmtweezers_tempo_seqName[] = "";
 char marching_orders_tempo_seqName[] = "";
 char s_campaign_cursor_seqName[] = "";
 char s_cursor_edge_seqName[] = "";
+char s_tran_hit_left_seqName[] = "";
+char s_tran_hit_right_seqName[] = "";

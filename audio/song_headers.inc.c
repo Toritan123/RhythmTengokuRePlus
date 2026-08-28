@@ -9190,6 +9190,30 @@ struct SongHeader marching_orders_tempo_seqData = {
     /* Song Number   */ 3
 };
 
+extern const u8 s_tran_hit_left_mid[];
+struct SongHeader s_tran_hit_left_seqData = {
+    /* MIDI Sequence */ s_tran_hit_left_mid,
+    /* Sound Player  */ SFX_PLAYER_2,
+    /* Bank Number   */ INST_BANK_7,
+    /* Volume        */ 80,
+    /* Priority      */ 80,
+    /* unk8          */ 0x40,
+    /* Song Title    */ s_tran_hit_left_seqName,
+    /* Song Number   */ 1946
+};
+
+extern const u8 s_tran_hit_right_mid[];
+struct SongHeader s_tran_hit_right_seqData = {
+    /* MIDI Sequence */ s_tran_hit_right_mid,
+    /* Sound Player  */ SFX_PLAYER_8,
+    /* Bank Number   */ INST_BANK_2,
+    /* Volume        */ 80,
+    /* Priority      */ 90,
+    /* unk8          */ 0x40,
+    /* Song Title    */ s_tran_hit_right_seqName,
+    /* Song Number   */ 1947
+};
+
 extern const u8 s_cursor_edge_mid[];
 struct SongHeader s_cursor_edge_seqData = {
     /* MIDI Sequence */ s_cursor_edge_mid,
