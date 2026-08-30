@@ -127,7 +127,7 @@ void perfect_scene_start(void *sVar, s32 dArg) {
         strcat(gPerfect->string, "\0020" "\0010" "ふたたび　パーフェクト　です！\n");
         strcat(gPerfect->string, "何か　さしあげたいのですが…\n");
         strcat(gPerfect->string, "何もなくって　ゴメンネ。\n");
-        strcat(gPerfect->string, "たくさん　遊んでくれて　ありがとネ！");
+        strcat(gPerfect->string, "たくさん　遊んでくれて　ありがとう！");
     } else {
     strcat(gPerfect->string, "\0020" "\0010" "をプレゼント！\n"); // You've earned a gift!
     strcat(gPerfect->string, perfect_gift_directive_text[giftType]);
