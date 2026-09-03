@@ -203,7 +203,7 @@ void studio_scene_play_music(s32 item) {
     struct StudioSongData *data;
     u32 length;
 
-    data = &D_030046a8->data.studioSongs[item];
+    data = studio_song(item);
 
     if (data->unk3 & 1) {
         dma3_fill(0, gStudio->replaySeq, 0x3800, 0x20, 0x200);

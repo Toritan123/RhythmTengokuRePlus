@@ -76,7 +76,7 @@ s32 studio_option_list_no_checked_songs(void) {
     u32 i;
 
     for (i = 0; i < D_030046a8->data.totalSongs; i++) {
-        if (!(D_030046a8->data.studioSongs[i].unk3 & 2)) {
+        if (!(studio_song(i)->unk3 & 2)) {
             return FALSE;
         }
     }
@@ -190,7 +190,7 @@ void studio_option_list_update(void) {
                 } else {
                     songItem = listbox_get_sel_item(gStudio->songList);
 
-                    if (D_030046a8->data.studioSongs[songItem].unk3 & 2) {
+                    if (studio_song(songItem)->unk3 & 2) {
                         studio_warning_create(
                                 STUDIO_WARNING_OPT_Y,
                                 // In listening mode, only the songs
@@ -240,17 +240,17 @@ void studio_option_list_update(void) {
                 songItem = listbox_get_sel_item(gStudio->songList);
                 isValid = TRUE;
 
-                if (D_030046a8->data.studioSongs[songItem].songID == STUDIO_SONG_SILENCE) {
-                    if (!(D_030046a8->data.studioSongs[songItem].unk3 & 1)) {
+                if (studio_song(songItem)->songID == STUDIO_SONG_SILENCE) {
+                    if (!(studio_song(songItem)->unk3 & 1)) {
                         isValid = FALSE;
                     }
                 }
 
                 if (isValid) {
-                    D_030046a8->data.studioSongs[songItem].unk3 ^= 2;
+                    studio_song(songItem)->unk3 ^= 2;
                     func_0800b454(gStudio->songList, songItem);
 
-                    if (D_030046a8->data.studioSongs[songItem].unk3 & 2) {
+                    if (studio_song(songItem)->unk3 & 2) {
                         play_sound_in_player(MUSIC_PLAYER_2, &s_menu_cancel3_seqData);
                     } else {
                         play_sound_in_player(MUSIC_PLAYER_2, &s_menu_kettei2_seqData);

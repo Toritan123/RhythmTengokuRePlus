@@ -700,7 +700,7 @@ void drum_studio_engine_start(u32 version) {
     }
 
     if (gDrumStudio->version == ENGINE_VER_DRUM_STUDIO_LISTEN) {
-        while (D_030046a8->data.studioSongs[gDrumStudio->replayID].unk3 & 2) {
+        while (studio_song(gDrumStudio->replayID)->unk3 & 2) {
             if (++gDrumStudio->replayID >= D_030046a8->data.totalSongs) {
                 gDrumStudio->replayID = 0;
             }
@@ -713,7 +713,7 @@ void drum_studio_engine_start(u32 version) {
             gDrumStudio->playerDrumKitID = clamp_int32(studio_get_current_kit(), 0, drum_studio_get_total_kits());
             break;
         case ENGINE_VER_DRUM_STUDIO_LISTEN:
-            gDrumStudio->playerDrumKitID = D_030046a8->data.studioSongs[gDrumStudio->replayID].drumKitID;
+            gDrumStudio->playerDrumKitID = studio_song(gDrumStudio->replayID)->drumKitID;
             break;
     }
 
@@ -826,7 +826,7 @@ const struct Beatscript *drum_studio_init_script(void) {
         return NULL;
     }
 
-    gDrumStudio->replayData = replayData = &D_030046a8->data.studioSongs[gDrumStudio->replayID];
+    gDrumStudio->replayData = replayData = studio_song(gDrumStudio->replayID);
     gDrumStudio->unk418 = 0;
     dma3_fill(0, gDrumStudio->drumReplaySeq, 0x3800, 0x20, 0x200);
 
@@ -919,7 +919,7 @@ s32 func_080295d4(void) {
             if (++gDrumStudio->replayID >= D_030046a8->data.totalSongs) {
                 gDrumStudio->replayID = 0;
             }
-        } while (D_030046a8->data.studioSongs[gDrumStudio->replayID].unk3 & 2);
+        } while (studio_song(gDrumStudio->replayID)->unk3 & 2);
         result = TRUE;
         func_080291bc();
     }

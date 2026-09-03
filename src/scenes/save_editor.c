@@ -49,7 +49,7 @@ struct SaveEditorMember gSaveEditorMembers[SE_MBR_COUNT] = {
     /* SE_MBR_UNK_B3 */
     { "unkB3（未使用）",                               SE_KIND_U8,    0,  -1, -1, NULL,   8, NULL,               0 },
     /* SE_MBR_STUDIO_SONGS */
-    { "スタジオの曲",                        SE_KIND_STRUCT_FIELD, 55, -1, -1, NULL,          0, sStudioSongFields,  4 },
+    { "スタジオの曲",                        SE_KIND_STRUCT_FIELD, STUDIO_SONG_TOTAL_SLOTS, -1, -1, NULL, 0, sStudioSongFields,  4 },
     /* SE_MBR_LEVEL_TOTAL_PLAYS */
     { "レベル合計プレイ数",                   SE_KIND_U8,  TOTAL_LEVELS, -1, -1, NULL,        0, NULL,               0 },
     /* SE_MBR_LEVEL_FIRST_OK */
@@ -319,7 +319,8 @@ void *save_editor_get_value_ptr(u32 member, u32 arrayIndex, u32 fieldIndex) {
         case SE_MBR_DRUM_KITS_UNLOCKED:                return &save->drumKitsUnlocked[arrayIndex];
 
         case SE_MBR_STUDIO_SONGS: {
-            u8 *base = (u8 *)&save->studioSongs[arrayIndex];
+            u8 *base = (u8 *)get_studio_song_slot(save, arrayIndex);
+            if (base == NULL) return NULL;
             if (fieldIndex >= (u32)m->fieldCount) return NULL;
             return base + fieldIndex;
         }

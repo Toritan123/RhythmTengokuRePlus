@@ -153,7 +153,7 @@ s32 is_studio_song_registered(s32 songID) {
     s32 i;
     s32 total = D_030046a8->data.totalSongs;
     for (i = 0; i < total; i++) {
-        if (D_030046a8->data.studioSongs[i].songID == songID) {
+        if (studio_song(i)->songID == songID) {
             return 1;
         }
     }

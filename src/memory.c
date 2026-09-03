@@ -22,6 +22,17 @@ extern void unlock_all_campaign_gift_songs(void);
 // The main save lives at 0x0E000000 with its backup copy at 0x0E004000.
 typedef char save_buffer_fits_in_sram[(SAVE_BUFFER_SIZE <= 0x4000) ? 1 : -1];
 
+// Everything up to extraData is the original save layout, and the base
+// checksum covers exactly that region, so saves stay interchangeable with
+// retail and with upstream Plus. studioSongs[] is the field most likely to
+// be grown by mistake; growing it moves every field after it and quietly
+// invalidates every existing save. New storage belongs in
+// ExtraTengokuSaveData, which sits after the boundary and carries its own
+// checksum and version.
+typedef char studio_songs_keeps_the_retail_layout[
+        (sizeof(((struct TengokuSaveData *)0)->studioSongs) == (45 + 10) * 4) ? 1 : -1];
+
+
 
 // Initiate the size and positions of the save buffer and memory heap.
 void init_ewram(void) {
@@ -107,8 +118,19 @@ static void update_extra_save_data_checksum(struct ExtraTengokuSaveData *extra) 
 }
 
 void on_extra_save_upgrade(u16 oldVersion, struct ExtraTengokuSaveData *extra) {
-	(void)oldVersion;
-	(void)extra;
+    u32 i;
+
+    // 0x0000 had no extraStudioSongs[], so whatever the shorter save left in
+    // those bytes is garbage. Start them empty; totalSongs never reached them
+    // on such a save anyway.
+    if (oldVersion < 0x0001) {
+        for (i = 0; i < STUDIO_SONG_EXTRA_SLOTS; i++) {
+            extra->extraStudioSongs[i].songID = 0;
+            extra->extraStudioSongs[i].replayID = -1;
+            extra->extraStudioSongs[i].drumKitID = 0;
+            extra->extraStudioSongs[i].unk3 = 0;
+        }
+    }
 }
 
 static u32 calculate_save_buffer_checksum(struct SaveBuffer *buffer) {

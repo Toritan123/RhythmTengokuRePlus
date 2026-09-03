@@ -6,10 +6,49 @@
 /* STUDIO SONG LIST */
 
 
-// The save array has to hold every studio song plus the 10 drum replay
-// slots; this fails the build if a song is added without growing it.
+// The song slots have to hold every studio song plus the 10 drum replay
+// entries; this fails the build if a song is added without room for it.
 typedef char studio_song_slots_are_big_enough[
-        ((s32)ARRAY_COUNT(D_030046a8->data.studioSongs) >= (s32)(TOTAL_STUDIO_SONGS + 10)) ? 1 : -1];
+        (STUDIO_SONG_TOTAL_SLOTS >= (TOTAL_STUDIO_SONGS + 10)) ? 1 : -1];
+
+
+static struct StudioSongData sStudioSongFallback;
+
+
+// Song Save Data - Slot Lookup
+// studioSongs[] is frozen at the retail size, so anything past it is kept
+// in the extra save block. Every access goes through here so the split
+// stays invisible to the rest of the studio code.
+struct StudioSongData *get_studio_song_slot(struct TengokuSaveData *data, s32 id) {
+    if ((u32)id >= STUDIO_SONG_TOTAL_SLOTS) {
+        return NULL;
+    }
+
+    if (id < STUDIO_SONG_BASE_SLOTS) {
+        return &data->studioSongs[id];
+    }
+
+    return &data->extraData.extraStudioSongs[id - STUDIO_SONG_BASE_SLOTS];
+}
+
+
+// Song Save Data - Slot Lookup (Current Save)
+// An id past the end only happens on a corrupted or hand-edited save (the
+// save editor can set totalSongs freely), so hand back a scratch slot and
+// let the studio show nonsense rather than dereference NULL.
+struct StudioSongData *studio_song(s32 id) {
+    struct StudioSongData *slot = get_studio_song_slot(&D_030046a8->data, id);
+
+    if (slot == NULL) {
+        sStudioSongFallback.songID = STUDIO_SONG_SILENCE;
+        sStudioSongFallback.replayID = -1;
+        sStudioSongFallback.drumKitID = 0;
+        sStudioSongFallback.unk3 = 0;
+        return &sStudioSongFallback;
+    }
+
+    return slot;
+}
 
 
 // Song Save Data - Unlock Default Songs
@@ -30,15 +69,15 @@ s32 save_studio_song(s32 song, s32 replay, s32 drumKit, s32 flags) {
 
     id = D_030046a8->data.totalSongs;
 
-    // Was a hardcoded 69, which is what the song list *should* hold, but
-    // studioSongs[] was never grown past the original 45 + 10. Bound it to
-    // the real array so a full save drops songs instead of overwriting the
-    // level statistics that follow it.
-    if (id >= (s32)ARRAY_COUNT(D_030046a8->data.studioSongs)) {
+    // Was a hardcoded 69 while studioSongs[] only held 45 + 10, so a full
+    // save wrote over the level statistics that follow it. The surplus
+    // slots now live in the extra save block; bound this to what the two
+    // of them actually hold.
+    if (id >= STUDIO_SONG_TOTAL_SLOTS) {
         return -1;
     }
 
-    data = &D_030046a8->data.studioSongs[id];
+    data = studio_song(id);
     data->songID = song;
     data->replayID = replay;
     data->drumKitID = drumKit;
@@ -54,8 +93,8 @@ void swap_studio_songs(s32 id1, s32 id2) {
     struct StudioSongData *data1, *data2;
     struct StudioSongData temp;
 
-    data1 = &D_030046a8->data.studioSongs[id1];
-    data2 = &D_030046a8->data.studioSongs[id2];
+    data1 = studio_song(id1);
+    data2 = studio_song(id2);
 
     temp.songID = data1->songID;
     temp.replayID = data1->replayID;
@@ -96,17 +135,20 @@ void delete_studio_song(s32 id) {
     u32 i;
 
     totalSongs = D_030046a8->data.totalSongs;
-    replay = D_030046a8->data.studioSongs[id].replayID;
+    replay = studio_song(id)->replayID;
 
     if (replay >= 0) {
         delete_saved_replay(&D_030046a8->data.drumReplaysAlloc, replay);
     }
 
     for (i = id; i < (totalSongs - 1); i++) {
-        D_030046a8->data.studioSongs[i].songID = D_030046a8->data.studioSongs[i+1].songID;
-        D_030046a8->data.studioSongs[i].replayID = D_030046a8->data.studioSongs[i+1].replayID;
-        D_030046a8->data.studioSongs[i].drumKitID = D_030046a8->data.studioSongs[i+1].drumKitID;
-        D_030046a8->data.studioSongs[i].unk3 = D_030046a8->data.studioSongs[i+1].unk3;
+        struct StudioSongData *dst = studio_song(i);
+        struct StudioSongData *src = studio_song(i + 1);
+
+        dst->songID = src->songID;
+        dst->replayID = src->replayID;
+        dst->drumKitID = src->drumKitID;
+        dst->unk3 = src->unk3;
     }
 
     D_030046a8->data.totalSongs--;
@@ -125,7 +167,7 @@ const char *studio_song_list_get_string(s32 line) {
 
     strint(numString, line + 1);
     memcpy(gStudio->string, "\00414.", 5);
-    songData = &D_030046a8->data.studioSongs[line];
+    songData = studio_song(line);
     songEntry = &studio_song_table[songData->songID];
 
     if (songEntry->shortTitle != NULL) {
@@ -146,15 +188,15 @@ s16 studio_song_list_get_sprite(s32 line) {
         return -1;
     }
 
-    switch (D_030046a8->data.studioSongs[line].unk3 & 3u) {
+    switch (studio_song(line)->unk3 & 3u) {
         case 0:
             return sprite_create(gSpriteHandler, anim_studio_item_marker_check, 0, 64, 64, 0, 0, 0, 0);
 
         case 1:
-            return sprite_create(gSpriteHandler, anim_studio_item_markers, D_030046a8->data.studioSongs[line].replayID, 118, 96, 0, 0, 0, 0);
+            return sprite_create(gSpriteHandler, anim_studio_item_markers, studio_song(line)->replayID, 118, 96, 0, 0, 0, 0);
 
         case 3:
-            return sprite_create(gSpriteHandler, anim_studio_item_marker_replay, D_030046a8->data.studioSongs[line].replayID, 64, 64, 0, 0, 0, 0);
+            return sprite_create(gSpriteHandler, anim_studio_item_marker_replay, studio_song(line)->replayID, 64, 64, 0, 0, 0, 0);
 
         default:
             return -1;
@@ -236,7 +278,7 @@ void studio_song_list_update(void) {
             optionItem = listbox_get_sel_item(gStudio->optionList);
             delete_listbox(gStudio->optionList);
 
-            if (D_030046a8->data.studioSongs[songItem].replayID < 0) {
+            if (studio_song(songItem)->replayID < 0) {
                 studio_option_list_init(FALSE, optionItem);
             } else {
                 if (optionItem == STUDIO_OPTION_DELETE) {
@@ -284,13 +326,13 @@ void studio_song_list_update(void) {
 
         case STUDIO_LIST_EV_CHECK_ITEM:
             songItem = listbox_get_sel_item(gStudio->songList);
-            if ((D_030046a8->data.studioSongs[songItem].songID == STUDIO_SONG_SILENCE)
-              && ((D_030046a8->data.studioSongs[songItem].unk3 & 1) == 0)) {
+            if ((studio_song(songItem)->songID == STUDIO_SONG_SILENCE)
+              && ((studio_song(songItem)->unk3 & 1) == 0)) {
                 play_sound_in_player(MUSIC_PLAYER_2, &s_menu_error_seqData);
             } else {
-                D_030046a8->data.studioSongs[songItem].unk3 ^= 2;
+                studio_song(songItem)->unk3 ^= 2;
                 func_0800b454(gStudio->songList, songItem);
-                if (D_030046a8->data.studioSongs[songItem].unk3 & 2) {
+                if (studio_song(songItem)->unk3 & 2) {
                     play_sound_in_player(MUSIC_PLAYER_2, &s_menu_cancel3_seqData);
                 } else {
                     play_sound_in_player(MUSIC_PLAYER_2, &s_menu_kettei2_seqData);

@@ -7,7 +7,14 @@
 #define SAVE_BUFFER_SIZE sizeof(struct SaveBuffer)
 
 #define EXTRA_SAVE_DATA_MAGIC   "ENOT" // extra not original thing <3
-#define EXTRA_SAVE_DATA_VERSION 0x0000
+#define EXTRA_SAVE_DATA_VERSION 0x0001
+
+// Studio song slots. studioSongs[] sits inside the retail save layout and
+// cannot be resized without moving every field after it, so the songs Plus
+// adds beyond the original 45 are stored in the extra block instead.
+#define STUDIO_SONG_BASE_SLOTS  (45 + 10)   // 45 songs + 10 drum replays
+#define STUDIO_SONG_EXTRA_SLOTS 14
+#define STUDIO_SONG_TOTAL_SLOTS (STUDIO_SONG_BASE_SLOTS + STUDIO_SONG_EXTRA_SLOTS)
 
 // helper functions
 #define SET_ADVANCE_FLAG(flags, flag)   ((flags) |= (flag))
@@ -43,16 +50,16 @@ extern struct SaveBuffer {
         u8 advanceFlags;
         u8 totalSongs;
         u8 unkB3; // above
-        // Retail held 45 songs + 10 saved drum replays. Plus adds 14 more
-        // songs (TOTAL_STUDIO_SONGS is 59), so the array has to grow with
-        // it or a completed save overruns levelTotalPlays below. This moves
-        // every field after it, so older saves no longer validate.
+        // Part of the retail save layout, so its size is fixed. Plus has
+        // more songs than fit here; the surplus lives in extraStudioSongs
+        // below. Always go through get_studio_song_slot() rather than
+        // indexing this directly.
         struct StudioSongData {
             u8 songID;
             s8 replayID;
             u8 drumKitID;
             u8 unk3;
-        } studioSongs[59 + 10];
+        } studioSongs[STUDIO_SONG_BASE_SLOTS];
         u8 levelTotalPlays[TOTAL_BASE_LEVELS];
         u8 levelFirstOK[TOTAL_BASE_LEVELS];
         u8 levelFirstSuperb[TOTAL_BASE_LEVELS];
@@ -107,6 +114,10 @@ extern struct SaveBuffer {
             u16 extraLevelFirstSuperb[TOTAL_EXTRA_LEVELS];
             u16 extraCampaignsCleared[TOTAL_EXTRA_PERFECT_CAMPAIGNS];
             u16 extraReadingMaterialUnlocked[TOTAL_EXTRA_READING_MATERIALS];
+            // Overflow slots for studioSongs[]. Keep this last: growing it
+            // moves no other field, so a later version can extend it with
+            // nothing more than a version bump.
+            struct StudioSongData extraStudioSongs[STUDIO_SONG_EXTRA_SLOTS];
         } extraData;
     } data;
 } *D_030046a8;
@@ -121,6 +132,8 @@ extern s32 generate_save_buffer_checksum(s32 *buffer, u32 size);
 extern void on_extra_save_upgrade(u16 oldVersion, struct ExtraTengokuSaveData *extra);
 extern void init_save_buffer(void);
 extern void clear_save_data(void);
+extern struct StudioSongData *get_studio_song_slot(struct TengokuSaveData *data, s32 id);
+extern struct StudioSongData *studio_song(s32 id);
 extern void set_playtest_save_data(void);
 extern s32 copy_to_save_buffer(u8 *cartRAM);
 extern s32 copy_sram_to_save_buffer(void);
