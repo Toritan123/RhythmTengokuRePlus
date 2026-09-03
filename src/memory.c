@@ -19,6 +19,10 @@ extern void unlock_all_campaign_gift_songs(void);
 /* SAVE/MEMORY */
 
 
+// The main save lives at 0x0E000000 with its backup copy at 0x0E004000.
+typedef char save_buffer_fits_in_sram[(SAVE_BUFFER_SIZE <= 0x4000) ? 1 : -1];
+
+
 // Initiate the size and positions of the save buffer and memory heap.
 void init_ewram(void) {
     u16 ewramStart = 4;

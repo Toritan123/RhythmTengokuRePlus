@@ -6,6 +6,12 @@
 /* STUDIO SONG LIST */
 
 
+// The save array has to hold every studio song plus the 10 drum replay
+// slots; this fails the build if a song is added without growing it.
+typedef char studio_song_slots_are_big_enough[
+        ((s32)ARRAY_COUNT(D_030046a8->data.studioSongs) >= (s32)(TOTAL_STUDIO_SONGS + 10)) ? 1 : -1];
+
+
 // Song Save Data - Unlock Default Songs
 void unlock_default_studio_songs(void) {
     save_studio_song(STUDIO_SONG_SILENCE, -1, 1, 2);

@@ -43,12 +43,16 @@ extern struct SaveBuffer {
         u8 advanceFlags;
         u8 totalSongs;
         u8 unkB3; // above
+        // Retail held 45 songs + 10 saved drum replays. Plus adds 14 more
+        // songs (TOTAL_STUDIO_SONGS is 59), so the array has to grow with
+        // it or a completed save overruns levelTotalPlays below. This moves
+        // every field after it, so older saves no longer validate.
         struct StudioSongData {
             u8 songID;
             s8 replayID;
             u8 drumKitID;
             u8 unk3;
-        } studioSongs[45 + 10];
+        } studioSongs[59 + 10];
         u8 levelTotalPlays[TOTAL_BASE_LEVELS];
         u8 levelFirstOK[TOTAL_BASE_LEVELS];
         u8 levelFirstSuperb[TOTAL_BASE_LEVELS];
