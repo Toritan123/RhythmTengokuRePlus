@@ -173,6 +173,23 @@ void unlock_all_unassigned_campaign_gift_songs(void) {
     }
 }
 
+
+// Register every song handed out as a Perfect Campaign gift. Playtest saves
+// mark the campaigns cleared directly, so the gift code above never runs for
+// them and the studio would be missing all of the campaign songs.
+void unlock_all_campaign_gift_songs(void) {
+    s32 i;
+
+    for (i = 0; i < TOTAL_PERFECT_CAMPAIGNS; i++) {
+        if (campaign_gifts_table[i].type != CAMPAIGN_GIFT_SONG) {
+            continue;
+        }
+        if (!is_studio_song_registered(campaign_gifts_table[i].id)) {
+            save_studio_song(campaign_gifts_table[i].id, -1, 1, 0);
+        }
+    }
+}
+
 // Scene Update (Paused)
 void perfect_scene_paused(void *sVar, s32 dArg) {
 }

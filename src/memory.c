@@ -13,6 +13,7 @@ extern char D_08935fbc[]; // "RIQ"
 extern char D_08935fc4[]; // "CAL"
 
 extern void unlock_all_unassigned_campaign_gift_songs(void);
+extern void unlock_all_campaign_gift_songs(void);
 
 
 /* SAVE/MEMORY */
@@ -227,7 +228,9 @@ void set_playtest_save_data(void) {
     for (i = 0; i < ARRAY_COUNT(data->drumKitsUnlocked); i++) {
         data->drumKitsUnlocked[i] = TRUE;
     }
-    // unlock all songs
+    // unlock all songs (campaign gifts first, so the studio list ends up in
+    // the same order a player who actually earned them would see)
+    unlock_all_campaign_gift_songs();
     unlock_all_unassigned_campaign_gift_songs();
 
     data->currentFlow = 0;

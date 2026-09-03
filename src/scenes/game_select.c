@@ -252,7 +252,7 @@ const char *get_campaign_gift_title(s32 id, s32 shortenSongTitle) {
             return reading_material_table[giftID].title;
 
         case CAMPAIGN_GIFT_NEW_GAME:
-            return "ï¿½Vï¿½Qï¿½[ï¿½ï¿½"; // New Game
+            return "VƒQ[ƒ€"; // New Game
     }
 }
 
@@ -282,22 +282,22 @@ void start_campaign_notice(s32 id) {
     notice->y = campaign_gifts_table[id].y;
     level = get_level_data_from_grid_xy(notice->x, notice->y);
     string = notice->text;
-    memcpy(string, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü@ï¿½u", 13);  // [Right now]
+    memcpy(string, "‚½‚¾‚¢‚Ü@u", 13);  // [Right now]
     strcat(string, level->name); // "<game_name>"
     if(level->flags & LEVEL_DATA_FLAG_IS_EXTRA) {
         strcat(string, " TEMPO UP!"); // Extra
     }
-    strcat(string, "ï¿½vï¿½@ï¿½Åƒpï¿½[ï¿½tï¿½Fï¿½Nï¿½gï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆA"); // Get a perfect on this
+    strcat(string, "v@‚Åƒp[ƒtƒFƒNƒg‚ğ’B¬‚·‚é‚ÆA"); // Get a perfect on this
     if (!isSpecialSong) {
-        strcat(string, "ï¿½ï¿½ï¿½ï¿½È‚ï¿½"); // game, and you'll receive
+        strcat(string, "‚à‚ê‚È‚­"); // game, and you'll receive
     }
-    strcat(string, "ï¿½@ï¿½u"); // "
+    strcat(string, "@u"); // "
     strcat(string, get_campaign_gift_title(id, FALSE)); // "<gift>"
-    strcat(string, "ï¿½vï¿½@"); // "
+    strcat(string, "v@"); // "
     if (isStandardSong) {
-        strcat(string, "ï¿½Ì‹ï¿½"); // 's song
+        strcat(string, "‚Ì‹È"); // 's song
     }
-    strcat(string, "ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½g!!"); // received as a present!!
+    strcat(string, "‚ğƒvƒŒƒ[ƒ“ƒg!!"); // received as a present!!
     text_printer_set_string(notice->printer, string);
 
     sprite_set_visible(gSpriteHandler, gGameSelect->selectionBorderSprite, FALSE);

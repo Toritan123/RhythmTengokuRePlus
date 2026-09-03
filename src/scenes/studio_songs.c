@@ -24,7 +24,11 @@ s32 save_studio_song(s32 song, s32 replay, s32 drumKit, s32 flags) {
 
     id = D_030046a8->data.totalSongs;
 
-    if (id >= 69) {
+    // Was a hardcoded 69, which is what the song list *should* hold, but
+    // studioSongs[] was never grown past the original 45 + 10. Bound it to
+    // the real array so a full save drops songs instead of overwriting the
+    // level statistics that follow it.
+    if (id >= (s32)ARRAY_COUNT(D_030046a8->data.studioSongs)) {
         return -1;
     }
 

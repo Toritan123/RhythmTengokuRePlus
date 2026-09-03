@@ -31,6 +31,7 @@ extern void perfect_scene_init_gfx2(void);
 extern void perfect_scene_init_gfx1(void);
 extern void perfect_scene_start(void *sVar, s32 dArg);
 extern void unlock_all_unassigned_campaign_gift_songs(void);
+extern void unlock_all_campaign_gift_songs(void);
 extern void perfect_scene_paused(void *sVar, s32 dArg);
 extern void perfect_scene_update(void *sVar, s32 dArg);
 extern u32  perfect_scene_inputs_enabled(void);
