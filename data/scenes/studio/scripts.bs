@@ -2067,9 +2067,13 @@ script script_studio_rhythm_tweezers_tempo
 @ Marching Orders TEMPO UP
 script script_studio_marching_orders_tempo
     set_tempo 177
-    set_music_volume 0x100
-    run mute_studio_mus_tracks, MIDI_TRACK_9
-    play_music s_guntai2_seqData
+    @ The extra stage moved to its own song in e4c8e8df5 and this was left
+    @ behind on s_guntai2. Volume matches the stage; the muted tracks are
+    @ the two busy percussion parts of the new song (the old song kept its
+    @ drums on a single track 9, which is a different instrument here).
+    set_music_volume 150
+    run mute_studio_mus_tracks, (MIDI_TRACK_3 | MIDI_TRACK_6)
+    play_music marching_orders_tempo_seqData
     run play_studio_mus_count_in
     rest 24
     rest 24
@@ -2085,12 +2089,12 @@ script script_studio_marching_orders_tempo
     run play_studio_mus_count_in
     rest 24
     dms_start_bg_monitor 2
+    @ 8 beats of count-in above plus 112 here is the new song's 120 beats.
+    @ s_guntai2 was only 88 and looped through the old 168-beat session.
+    rest_beats 32
     rest_beats 32
     rest_beats 32
     rest_beats 16
-    rest_beats 32
-    rest_beats 32
-    rest 382 @ ~15.92 beats
     run scene_stop_music
     rest 2
     rest 24
