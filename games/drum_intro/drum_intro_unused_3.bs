@@ -90,6 +90,7 @@ script script_drum_intro_unused_3_main
     set_tempo 120
     set_music_volume 40
     mod_music_volume 156, 96
+    play_music s_dr_sam_bgm_seqData
     dmi_event02 1
     rest 24
     rest 24
@@ -108,7 +109,7 @@ script script_drum_intro_unused_3_main
     run gameplay_display_text_and_wait
     dmi_event02 1
     rest 12
-    mod_music_volume 0, 48
+    mod_music_volume 0, 12
     dmi_event02 2
     print_text_s D_0805e490
     run gameplay_display_text_and_wait
@@ -533,6 +534,7 @@ script script_drum_intro_unused_3_main
     set_tempo 120
     set_music_volume 40
     mod_music_volume 156, 96
+    play_music s_dr_sam_bgm_seqData
     dmi_event02 2
     print_text_s D_0805e858
     run gameplay_display_text_and_wait
