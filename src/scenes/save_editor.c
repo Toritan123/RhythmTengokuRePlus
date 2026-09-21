@@ -142,7 +142,10 @@ void save_editor_scene_start(void *sVar, s32 dArg) {
 
     gSaveEditor->bgFont       = create_new_bmp_font_bg(get_current_mem_id(), bitmap_font_warioware_body, 0, 0x340, 6);
     gSaveEditor->objFont      = scene_create_obj_font_printer(0x300, 4);
-    gSaveEditor->saveData     = &D_030046a8->data;
+    // Edit a copy: the live save is only written on L + SELECT, so a
+    // stray edit can be abandoned by leaving with SELECT alone.
+    gSaveEditor->saveData = mem_heap_alloc(sizeof(struct TengokuSaveData));
+    memcpy(gSaveEditor->saveData, &D_030046a8->data, sizeof(struct TengokuSaveData));
     gSaveEditor->inputsEnabled = FALSE;
     gSaveEditor->currentMember = 0;
     gSaveEditor->arrayIndex    = 0;
@@ -168,6 +171,7 @@ void save_editor_scene_paused(void *sVar, s32 dArg) {
 void save_editor_scene_stop(void *sVar, s32 dArg) {
     func_08008628();
     func_08004058();
+    mem_heap_dealloc(gSaveEditor->saveData);
 }
 
 u32 save_editor_inputs_enabled(void) {
@@ -192,7 +196,7 @@ void save_editor_scene_update(void *sVar, s32 dArg) {
         return;
     }
 
-    if (D_030053b8 & LEFT_SHOULDER_BUTTON) {
+    if ((D_030053b8 & LEFT_SHOULDER_BUTTON) && !(D_03004ac0 & SELECT_BUTTON)) {
         gSaveEditor->currentMember = wrap_index(gSaveEditor->currentMember, SE_MBR_COUNT - 1, SE_MBR_COUNT);
     }
     if (D_030053b8 & RIGHT_SHOULDER_BUTTON) {
@@ -261,8 +265,9 @@ void save_editor_scene_update(void *sVar, s32 dArg) {
         }
     }
 
-    if (D_03004afc & SELECT_BUTTON) {
-        if (!(D_030053b8 & LEFT_SHOULDER_BUTTON)) {
+    if (D_03004b00 & SELECT_BUTTON) {
+        if (D_03004ac0 & LEFT_SHOULDER_BUTTON) {
+            memcpy(&D_030046a8->data, gSaveEditor->saveData, sizeof(struct TengokuSaveData));
             write_game_save_data();
         }
         set_pause_beatscript_scene(FALSE);
@@ -525,7 +530,7 @@ void save_editor_render_page(void) {
 
     save_editor_draw_line(SE_LINE_HINT_A, 0, "L/R: セーブデータの内容の移動", 8, 48);
 
-    save_editor_draw_line(SE_LINE_HINT_B, 0, "SELECT: セーブして終了", 8, 64);
+    save_editor_draw_line(SE_LINE_HINT_B, 0, "SELECT: 終了　L+SELECT: セーブして終了", 8, 64);
 
     if (m->kind == SE_KIND_BITFLAGS && m->flagCount > 0) {
         void* ptr = save_editor_get_value_ptr(member, arrIdx, 0);
