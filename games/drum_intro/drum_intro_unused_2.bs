@@ -245,9 +245,9 @@ script script_drum_intro_unused_2_main
     play_sfx s_intro_three_seqData
     dmi_event03 3
     rest 1
-    rest 11
+    rest 8
     play_sfx s_intro_four_seqData
-    rest 9
+    rest 12
     dmi_event03 3
     rest 4
     spawn_cue CUE_KICK
