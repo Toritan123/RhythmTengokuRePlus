@@ -82,10 +82,11 @@ script script_drum_intro_unused_2_main
     play_sfx s_intro_three_seqData
     dmi_event03 3
     rest 1
-    rest 12
+    rest 11
+    play_sfx s_intro_four_seqData
+    rest 1
     play_music s_intro_pat1_seqData
     rest 8
-    play_sfx s_intro_four_seqData
     dmi_event03 3
     rest 4
     spawn_cue CUE_KICK
@@ -244,9 +245,9 @@ script script_drum_intro_unused_2_main
     play_sfx s_intro_three_seqData
     dmi_event03 3
     rest 1
-    rest 12
-    rest 8
+    rest 11
     play_sfx s_intro_four_seqData
+    rest 9
     dmi_event03 3
     rest 4
     spawn_cue CUE_KICK

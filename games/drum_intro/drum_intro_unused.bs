@@ -49,13 +49,14 @@ script drum_intro_unused_sub_08a21294
     play_sfx s_intro_three_seqData
     rest 1
     beat_anim
-    rest 20
+    rest 11
 return
 
 
 script drum_intro_unused_sub_08a21390
     call drum_intro_unused_sub_08a21294
     play_sfx s_intro_four_seqData
+    rest 9
     rest 4
     beat_anim
     rest 24
@@ -64,6 +65,7 @@ return
 
 script drum_intro_unused_sub_08a213d8
     call drum_intro_unused_sub_08a21294
+    rest 9
     rest 28
 return
 
