@@ -242,22 +242,6 @@ void set_playtest_save_data(void) {
         set_campaign_cleared(data, i, TRUE);
     }
     data->totalPerfects = TOTAL_PERFECT_CAMPAIGNS;
-#ifdef CAMPAIGN_DEMO
-    // Recording build for the campaign cursor sound, which can only be
-    // heard while a Perfect Campaign is running. Leave Sneaky Spirits
-    // uncleared and queue it up, so entering the game select starts its
-    // notice straight away. It sits one step right of the cursor, which is
-    // pinned to Karate Man so every boot starts from the same place.
-    set_campaign_cleared(data, CAMPAIGN_SNEAKY_SPIRITS, FALSE);
-    data->totalPerfects = TOTAL_PERFECT_CAMPAIGNS - 1;
-    data->campaignState = CAMPAIGN_STATE_AVAILABLE;
-    data->currentCampaign = CAMPAIGN_SNEAKY_SPIRITS;
-    data->playsUntilNextCampaign = 0;
-    data->campaignAttemptsLeft = 3; // MAX_PERFECT_ATTEMPTS
-    data->unk26A = 0;
-    data->gsCursorX = 2;
-    data->gsCursorY = 11;
-#endif
 
     // set medals to 99
     data->totalMedals = 99;
