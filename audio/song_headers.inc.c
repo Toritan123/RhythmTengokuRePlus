@@ -9231,7 +9231,7 @@ struct SongHeader s_campaign_cursor_seqData = {
     /* MIDI Sequence */ s_campaign_cursor_mid,
     /* Sound Player  */ SFX_PLAYER_2,
     /* Bank Number   */ INST_BANK_61,
-    /* Volume        */ 77,
+    /* Volume        */ 100,
     /* Priority      */ 90,
     /* unk8          */ 0x40,
     /* Song Title    */ s_campaign_cursor_seqName,
