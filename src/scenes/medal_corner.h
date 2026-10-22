@@ -34,11 +34,10 @@ enum EndlessGamesEnum {
 enum DrumLessonsEnum {
     /* -- */ DRUM_LESSON_NULL = -1,
 
-    /* 00 */ DRUM_LESSON_INTRO_UNUSED_1,
-    /* 01 */ DRUM_LESSON_INTRO_UNUSED_2,
-    /* 02 */ DRUM_LESSON_INTRO_UNUSED_3,
-    /* 03 */ DRUM_LESSON_BASIC_1,
-    /* 04 */ DRUM_LESSON_BASIC_2,
+    // Retail order (0-18), then Plus's Tanuki and Monkey (19). Grades are
+    // saved per lesson ID, so these must keep the numbers retail and Plus use.
+    /* 00 */ DRUM_LESSON_BASIC_1,
+    /* 01 */ DRUM_LESSON_BASIC_2,
     /* 02 */ DRUM_LESSON_SHORT_1,
     /* 03 */ DRUM_LESSON_SHORT_2,
     /* 04 */ DRUM_LESSON_SHORT_3,
@@ -57,6 +56,11 @@ enum DrumLessonsEnum {
     /* 17 */ DRUM_LESSON_HI_TECH_1,
     /* 18 */ DRUM_LESSON_HI_TECH_2,
     /* 19 */ DRUM_LESSON_TANUKI_AND_MONKEY,
+    // RePlus intro lessons: shown first in the menu (see lessons_menu_row_to_id),
+    // but numbered last so they do not shift the grades above.
+    /* 20 */ DRUM_LESSON_INTRO_UNUSED_1,
+    /* 21 */ DRUM_LESSON_INTRO_UNUSED_2,
+    /* 22 */ DRUM_LESSON_INTRO_UNUSED_3,
 
     /* -- */ TOTAL_DRUM_LESSONS
 };

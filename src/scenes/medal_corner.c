@@ -13,6 +13,19 @@ static u8 sListSelLines[4];
 static s8 sDrumLessonID;
 
 
+// Drum Lessons Menu Row -> Lesson ID
+// The intro lessons are listed first, but take the last IDs so that the
+// retail lessons keep the IDs their saved grades are stored under.
+#define TOTAL_DRUM_LESSON_INTROS 3
+
+static s32 lessons_menu_row_to_id(s32 row) {
+    if (row < TOTAL_DRUM_LESSON_INTROS) {
+        return DRUM_LESSON_INTRO_UNUSED_1 + row;
+    }
+    return row - TOTAL_DRUM_LESSON_INTROS;
+}
+
+
 // Display Drum Lessons Grades
 void medal_corner_init_lesson_grades(void) {
     s16 sprite;
@@ -20,7 +33,7 @@ void medal_corner_init_lesson_grades(void) {
     u32 i;
 
     for (i = 0; i < TOTAL_DRUM_LESSONS; i++) {
-        grade = func_080281c4(i);
+        grade = func_080281c4(lessons_menu_row_to_id(i));
 
         if (grade != RESULTS_GRADE_D) {
             sprite = sprite_create(gSpriteHandler, lessons_menu_rank_icons[grade], 0, 0, 0, 0x8800, 1, 0, 0);
@@ -280,7 +293,11 @@ void medal_corner_scene_update(void *sVar, s32 dArg) {
                 scene = medal_corner_get_level_scene(item);
                 set_next_scene(scene);
                 set_scene_trans_target(scene, get_current_scene());
-                medal_corner_set_lesson_id(item);
+                if (gMedalCorner->menuID == MEDAL_CORNER_MENU_DRUM_LESSONS) {
+                    medal_corner_set_lesson_id(lessons_menu_row_to_id(item));
+                } else {
+                    medal_corner_set_lesson_id(item);
+                }
                 play_sound(&s_menu_kettei2_seqData);
                 set_pause_beatscript_scene(FALSE);
                 gMedalCorner->inputsEnabled = FALSE;
