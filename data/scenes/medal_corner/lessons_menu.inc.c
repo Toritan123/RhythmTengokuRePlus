@@ -2,19 +2,19 @@
 struct MedalCornerLevel lessons_menu_levels[] = {
     /* INTRO_UNUSED_1 */ {
         /* Scene  */ &scene_drum_intro_unused,
-        /* Title  */ "イントロ　１",
+        /* Title  */ "ビギナー　１",
         /* Anim   */ anim_lessons_menu_basic_1,
         /* Medals */ 0
     },
     /* INTRO_UNUSED_2 */ {
         /* Scene  */ &scene_drum_intro_unused_2,
-        /* Title  */ "イントロ　２",
+        /* Title  */ "ビギナー　２",
         /* Anim   */ anim_lessons_menu_basic_2,
         /* Medals */ 0
     },
     /* INTRO_UNUSED_3 */ {
         /* Scene  */ &scene_drum_intro_unused_3,
-        /* Title  */ "イントロ　３",
+        /* Title  */ "ビギナー　３",
         /* Anim   */ anim_lessons_menu_basic_3,
         /* Medals */ 0
     },
